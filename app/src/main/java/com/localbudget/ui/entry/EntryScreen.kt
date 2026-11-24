@@ -25,7 +25,7 @@ import androidx.compose.material.icons.filled.Autorenew
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.outlined.Backspace
+import androidx.compose.material.icons.automirrored.outlined.Backspace
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
@@ -368,7 +368,7 @@ private fun NumberPad(onKey: (Char) -> Unit, modifier: Modifier = Modifier) {
                     ) {
                         Box(contentAlignment = Alignment.Center) {
                             if (key == Keypad.BACKSPACE) {
-                                Icon(Icons.Outlined.Backspace, contentDescription = "Delete digit")
+                                Icon(Icons.AutoMirrored.Outlined.Backspace, contentDescription = "Delete digit")
                             } else {
                                 Text(key.toString(), style = MaterialTheme.typography.headlineSmall)
                             }

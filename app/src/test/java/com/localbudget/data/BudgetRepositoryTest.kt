@@ -136,6 +136,6 @@ class BudgetRepositoryTest {
         assertEquals(repo.recurring(), other.recurring())
 
         val csv = Backup.toCsv(repo.snapshot().entries)
-        assertTrue(csv.contains("2026-11-03,expense,12.5,Groceries,\"Milk, \"\"fresh\"\"\""))
+        assertTrue(csv.contains("2026-11-03,expense,12.50,Groceries,\"Milk, \"\"fresh\"\"\""))
     }
 }

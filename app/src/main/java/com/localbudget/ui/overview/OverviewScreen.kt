@@ -33,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -142,6 +143,7 @@ fun OverviewScreen(
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = onAddEntry,
+                modifier = Modifier.testTag("add_entry"),
                 icon = { Icon(Icons.Default.Add, contentDescription = null) },
                 text = { Text("Add") },
             )

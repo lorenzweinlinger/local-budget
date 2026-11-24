@@ -27,7 +27,7 @@ class AppSmokeTest {
 
     @Test fun addExpenseAndBrowseScreens() {
         compose.waitUntil(5_000) { compose.onAllNodesWithText("Nothing here yet").fetchSemanticsNodes().isNotEmpty() }
-        compose.onNodeWithText("Add").performClick()
+        compose.onNodeWithTag("add_entry").performClick()
 
         compose.onNodeWithTag("save").assertIsNotEnabled()
         listOf('4', '2', '.', '5').forEach { compose.onNodeWithTag("key_$it").performClick() }
@@ -42,7 +42,7 @@ class AppSmokeTest {
         compose.onNodeWithText("Eating out").assertExists()
 
         // Add an income via the type toggle.
-        compose.onNodeWithText("Add").performClick()
+        compose.onNodeWithTag("add_entry").performClick()
         compose.onNodeWithTag("type_income").performClick()
         listOf('1', '0', '0').forEach { compose.onNodeWithTag("key_$it").performClick() }
         compose.onNodeWithTag("save").performClick()
