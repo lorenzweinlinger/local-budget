@@ -30,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -93,6 +94,7 @@ fun BillsScreen(onAdd: () -> Unit, onOpen: (Long) -> Unit) {
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = onAdd,
+                modifier = Modifier.testTag("add_recurring"),
                 icon = { Icon(Icons.Default.Add, contentDescription = null) },
                 text = { Text("New") },
             )

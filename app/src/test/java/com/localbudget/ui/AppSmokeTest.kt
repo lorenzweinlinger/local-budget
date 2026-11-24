@@ -57,7 +57,7 @@ class AppSmokeTest {
         compose.waitUntil(5_000) { compose.onAllNodesWithText("No recurring items").fetchSemanticsNodes().isNotEmpty() }
 
         // Create a recurring bill.
-        compose.onNodeWithText("New").performClick()
+        compose.onNodeWithTag("add_recurring").performClick()
         compose.onNodeWithText("Name").performTextInput("Rent")
         compose.onNodeWithText("Amount").performTextInput("900")
         compose.onNodeWithText("Save").performScrollTo().performClick()
