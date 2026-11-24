@@ -102,6 +102,11 @@ fun BudgetAppUi(launchAction: StateFlow<String?>, onLaunchActionHandled: () -> U
     val route = backStack?.destination?.route
     val showBottomBar = route == null || topLevel.any { it.route == route }
 
+    // A leftover snackbar must not cover the Save button of an editor screen.
+    LaunchedEffect(route) {
+        if (!showBottomBar) snackbar.currentSnackbarData?.dismiss()
+    }
+
     val action by launchAction.collectAsStateWithLifecycle()
     LaunchedEffect(action) {
         when (action) {
