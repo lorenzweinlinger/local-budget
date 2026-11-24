@@ -1,5 +1,11 @@
 package com.localbudget.ui
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -30,6 +36,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -39,6 +46,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.localbudget.MainActivity
 import com.localbudget.data.EntryType
+import com.localbudget.data.ScreenTransition
 import com.localbudget.ui.bills.BillsScreen
 import com.localbudget.ui.bills.RecurringEditorScreen
 import com.localbudget.ui.entry.EntryScreen
@@ -107,6 +115,8 @@ fun BudgetAppUi(launchAction: StateFlow<String?>, onLaunchActionHandled: () -> U
         if (!showBottomBar) snackbar.currentSnackbarData?.dismiss()
     }
 
+    val transition = appContainer().settings.state.collectAsStateWithLifecycle().value.transition
+
     val action by launchAction.collectAsStateWithLifecycle()
     LaunchedEffect(action) {
         when (action) {
@@ -145,6 +155,10 @@ fun BudgetAppUi(launchAction: StateFlow<String?>, onLaunchActionHandled: () -> U
                 navController = nav,
                 startDestination = Routes.OVERVIEW,
                 modifier = Modifier.padding(padding).consumeWindowInsets(padding),
+                enterTransition = { enterFor(transition, forward = true) },
+                exitTransition = { exitFor(transition, forward = true) },
+                popEnterTransition = { enterFor(transition, forward = false) },
+                popExitTransition = { exitFor(transition, forward = false) },
             ) {
                 composable(Routes.OVERVIEW) {
                     OverviewScreen(
@@ -205,6 +219,36 @@ fun BudgetAppUi(launchAction: StateFlow<String?>, onLaunchActionHandled: () -> U
             }
         }
     }
+}
+
+private val topLevelRoutes = topLevel.map { it.route }.toSet()
+
+/** Tabs never slide (that feels odd for a bottom bar); editors slide in from the side. */
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.isTabSwitch(): Boolean =
+    initialState.destination.route in topLevelRoutes && targetState.destination.route in topLevelRoutes
+
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.enterFor(
+    transition: ScreenTransition,
+    forward: Boolean,
+): EnterTransition = when {
+    transition == ScreenTransition.NONE -> EnterTransition.None
+    transition == ScreenTransition.FADE || isTabSwitch() -> fadeIn(tween(180))
+    else -> slideIntoContainer(
+        if (forward) AnimatedContentTransitionScope.SlideDirection.Start else AnimatedContentTransitionScope.SlideDirection.End,
+        tween(250),
+    )
+}
+
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.exitFor(
+    transition: ScreenTransition,
+    forward: Boolean,
+): ExitTransition = when {
+    transition == ScreenTransition.NONE -> ExitTransition.None
+    transition == ScreenTransition.FADE || isTabSwitch() -> fadeOut(tween(180))
+    else -> slideOutOfContainer(
+        if (forward) AnimatedContentTransitionScope.SlideDirection.Start else AnimatedContentTransitionScope.SlideDirection.End,
+        tween(250),
+    )
 }
 
 private fun NavHostController.navigateTopLevel(route: String) {

@@ -19,6 +19,7 @@ object Backup {
             put("currency", settings.currency)
             put("periodStartDay", settings.periodStartDay)
             put("monthlyBudget", settings.monthlyBudget)
+            put("transition", settings.transition.name)
         })
         root.put("categories", JSONArray().apply {
             snapshot.categories.forEach { c ->
@@ -125,6 +126,7 @@ object Backup {
                 currency = s.optString("currency", "EUR"),
                 periodStartDay = s.optInt("periodStartDay", 1).coerceIn(1, 28),
                 monthlyBudget = s.optLong("monthlyBudget", 0L),
+                transition = ScreenTransition.of(s.optString("transition", "")),
             )
         }
         return BudgetRepository.Snapshot(categories, entries, recurring) to settings

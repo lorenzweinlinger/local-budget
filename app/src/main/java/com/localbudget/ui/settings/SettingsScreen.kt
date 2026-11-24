@@ -23,6 +23,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Animation
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.Download
@@ -60,6 +61,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.localbudget.AppContainer
 import com.localbudget.data.Backup
+import com.localbudget.data.ScreenTransition
 import com.localbudget.domain.Money
 import com.localbudget.ui.LocalMessenger
 import com.localbudget.ui.appContainer
@@ -132,6 +134,14 @@ fun SettingsScreen(onBack: () -> Unit, onOpenCategories: () -> Unit) {
             )
 
             HorizontalDivider(Modifier.padding(vertical = 8.dp))
+            SettingsGroup("Appearance")
+            SettingsRow(
+                icon = Icons.Default.Animation,
+                title = "Screen transitions",
+                value = settings.transition.label,
+            ) { dialog = "transition" }
+
+            HorizontalDivider(Modifier.padding(vertical = 8.dp))
             SettingsGroup("Your data")
             SettingsRow(Icons.Default.Upload, "Export backup", "Save everything to a JSON file") {
                 exportLauncher.launch("local-budget-backup-${LocalDate.now()}.json")
@@ -169,6 +179,11 @@ fun SettingsScreen(onBack: () -> Unit, onOpenCategories: () -> Unit) {
             initial = settings.periodStartDay,
             onDismiss = { dialog = null },
             onSave = { day -> container.settings.update { it.copy(periodStartDay = day) }; dialog = null },
+        )
+        "transition" -> TransitionDialog(
+            selected = settings.transition,
+            onDismiss = { dialog = null },
+            onSelect = { t -> container.settings.update { it.copy(transition = t) }; dialog = null },
         )
         "currency" -> CurrencyDialog(
             onDismiss = { dialog = null },
@@ -332,6 +347,40 @@ private fun CurrencyDialog(onDismiss: () -> Unit, onSelect: (String) -> Unit) {
                         ) {
                             Text(code, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.width(56.dp))
                             Text(name, style = MaterialTheme.typography.bodyMedium)
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {},
+        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+    )
+}
+
+@Composable
+private fun TransitionDialog(selected: ScreenTransition, onDismiss: () -> Unit, onSelect: (ScreenTransition) -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Screen transitions") },
+        text = {
+            Column {
+                ScreenTransition.entries.forEach { t ->
+                    Row(
+                        Modifier.fillMaxWidth().clickable { onSelect(t) }.padding(vertical = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        RadioButton(selected = t == selected, onClick = { onSelect(t) })
+                        Column {
+                            Text(t.label, style = MaterialTheme.typography.bodyLarge)
+                            Text(
+                                when (t) {
+                                    ScreenTransition.NONE -> "Switch screens immediately"
+                                    ScreenTransition.FADE -> "Short cross-fade"
+                                    ScreenTransition.SLIDE -> "Editors slide in from the side"
+                                },
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
                         }
                     }
                 }

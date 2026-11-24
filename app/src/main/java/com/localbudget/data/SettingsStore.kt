@@ -12,7 +12,19 @@ data class AppSettings(
     val periodStartDay: Int,
     /** Overall monthly spending budget in cents, 0 = no budget. */
     val monthlyBudget: Long,
+    /** Animation used when switching between screens. */
+    val transition: ScreenTransition = ScreenTransition.NONE,
 )
+
+enum class ScreenTransition(val label: String) {
+    NONE("Instant"),
+    FADE("Fade"),
+    SLIDE("Slide");
+
+    companion object {
+        fun of(name: String?): ScreenTransition = entries.firstOrNull { it.name == name } ?: NONE
+    }
+}
 
 class SettingsStore(context: Context) {
     private val prefs = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
@@ -28,6 +40,7 @@ class SettingsStore(context: Context) {
         currency = prefs.getString(KEY_CURRENCY, null) ?: defaultCurrency(),
         periodStartDay = prefs.getInt(KEY_START_DAY, 1),
         monthlyBudget = prefs.getLong(KEY_BUDGET, 0L),
+        transition = ScreenTransition.of(prefs.getString(KEY_TRANSITION, null)),
     )
 
     fun update(transform: (AppSettings) -> AppSettings) {
@@ -36,6 +49,7 @@ class SettingsStore(context: Context) {
             .putString(KEY_CURRENCY, new.currency)
             .putInt(KEY_START_DAY, new.periodStartDay.coerceIn(1, 28))
             .putLong(KEY_BUDGET, new.monthlyBudget.coerceAtLeast(0))
+            .putString(KEY_TRANSITION, new.transition.name)
             .apply()
         _state.value = new
         onChanged?.invoke()
@@ -53,6 +67,7 @@ class SettingsStore(context: Context) {
         const val KEY_CURRENCY = "currency"
         const val KEY_START_DAY = "period_start_day"
         const val KEY_BUDGET = "monthly_budget"
+        const val KEY_TRANSITION = "screen_transition"
         const val KEY_LAST_CATEGORY = "last_category_"
 
         fun defaultCurrency(): String =

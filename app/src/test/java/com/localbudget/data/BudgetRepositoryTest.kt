@@ -124,7 +124,7 @@ class BudgetRepositoryTest {
                 postedCount = 0, active = true,
             ),
         )
-        val settings = AppSettings(currency = "CHF", periodStartDay = 25, monthlyBudget = 150000)
+        val settings = AppSettings(currency = "CHF", periodStartDay = 25, monthlyBudget = 150000, transition = ScreenTransition.SLIDE)
         val json = Backup.toJson(repo.snapshot(), settings)
 
         val other = BudgetRepository(BudgetDatabase(ApplicationProvider.getApplicationContext(), name = null))
