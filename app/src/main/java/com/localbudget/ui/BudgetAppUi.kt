@@ -27,6 +27,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -113,7 +114,11 @@ fun BudgetAppUi(launchAction: StateFlow<String?>, onLaunchActionHandled: () -> U
         Scaffold(
             contentWindowInsets = WindowInsets(0),
             snackbarHost = {
-                SnackbarHost(snackbar, modifier = if (showBottomBar) Modifier else Modifier.navigationBarsPadding())
+                // On tab screens, keep the snackbar above the floating "Add" button so it never covers it.
+                SnackbarHost(
+                    snackbar,
+                    modifier = if (showBottomBar) Modifier.padding(bottom = 80.dp) else Modifier.navigationBarsPadding(),
+                )
             },
             bottomBar = {
                 if (showBottomBar) {
