@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Local Budget</string>
+    <string name="widget_description">This month\'s spending and quick add buttons</string>
+    <string name="widget_add_expense">− Expense</string>
+    <string name="widget_add_income">+ Income</string>
+    <string name="widget_spent">spent</string>
+    <string name="widget_left">left</string>
+    <string name="widget_over">over budget</string>
+    <string name="widget_detail_budget">%1$s of %2$s spent · %3$s/day</string>
+    <string name="widget_detail_over">%1$s of %2$s spent</string>
+    <string name="widget_detail_balance">Income %1$s · Balance %2$s</string>
+    <string name="shortcut_expense_short">Add expense</string>
+    <string name="shortcut_expense_long">Add a new expense</string>
+    <string name="shortcut_income_short">Add income</string>
+    <string name="shortcut_income_long">Add a new income</string>
+</resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_expense"
+        android:shortcutId="add_expense"
+        android:shortcutLongLabel="@string/shortcut_expense_long"
+        android:shortcutShortLabel="@string/shortcut_expense_short">
+        <intent
+            android:action="com.localbudget.action.ADD_EXPENSE"
+            android:targetClass="com.localbudget.MainActivity"
+            android:targetPackage="com.localbudget" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_income"
+        android:shortcutId="add_income"
+        android:shortcutLongLabel="@string/shortcut_income_long"
+        android:shortcutShortLabel="@string/shortcut_income_short">
+        <intent
+            android:action="com.localbudget.action.ADD_INCOME"
+            android:targetClass="com.localbudget.MainActivity"
+            android:targetPackage="com.localbudget" />
+    </shortcut>
+</shortcuts>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand">#FF2E7D5B</color>
+    <color name="icon_background">#FF1F5C43</color>
+    <color name="window_background">#FFF7FAF7</color>
+    <color name="widget_background">#F2FFFFFF</color>
+    <color name="widget_surface">#FFE3EEE7</color>
+    <color name="widget_text">#FF17211B</color>
+    <color name="widget_text_secondary">#FF56645B</color>
+    <color name="widget_accent">#FF2E7D5B</color>
+    <color name="widget_on_accent">#FFFFFFFF</color>
+</resources>

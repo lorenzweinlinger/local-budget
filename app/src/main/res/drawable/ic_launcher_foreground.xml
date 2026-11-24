@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- wallet body -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M34,38 L70,38 Q76,38 76,44 L76,70 Q76,76 70,76 L38,76 Q32,76 32,70 L32,42 Q32,38 34,38 Z" />
+    <!-- card peeking out -->
+    <path
+        android:fillColor="#FFB9E8CF"
+        android:pathData="M38,38 L64,29 Q67,28 68,31 L70,38 Z" />
+    <!-- clasp -->
+    <path
+        android:fillColor="#FF1F5C43"
+        android:pathData="M60,51 L78,51 L78,63 L60,63 Q56,63 56,59 L56,55 Q56,51 60,51 Z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M64,57 m-2.5,0 a2.5,2.5 0 1,0 5,0 a2.5,2.5 0 1,0 -5,0" />
+</vector>
