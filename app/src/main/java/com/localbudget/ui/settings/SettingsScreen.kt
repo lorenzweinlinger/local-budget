@@ -82,13 +82,13 @@ fun SettingsScreen(onBack: () -> Unit, onOpenCategories: () -> Unit) {
     var pendingImport by remember { mutableStateOf<Uri?>(null) }
 
     val exportLauncher = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
-        if (uri != null) scope.launch {
+        if (uri != null) scope.launch(Dispatchers.Main.immediate) {
             val result = runCatching { exportBackup(context, container, uri) }
             messenger.show(if (result.isSuccess) "Backup saved" else "Could not save backup")
         }
     }
     val csvLauncher = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("text/csv")) { uri ->
-        if (uri != null) scope.launch {
+        if (uri != null) scope.launch(Dispatchers.Main.immediate) {
             val result = runCatching { exportCsv(context, container, uri) }
             messenger.show(if (result.isSuccess) "CSV exported" else "Could not export CSV")
         }
@@ -184,7 +184,7 @@ fun SettingsScreen(onBack: () -> Unit, onOpenCategories: () -> Unit) {
             confirmButton = {
                 TextButton(onClick = {
                     pendingImport = null
-                    scope.launch {
+                    scope.launch(Dispatchers.Main.immediate) {
                         val result = runCatching { importBackup(context, container, uri) }
                         messenger.show(
                             result.fold(

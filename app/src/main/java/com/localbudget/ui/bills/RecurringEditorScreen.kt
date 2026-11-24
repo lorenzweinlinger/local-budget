@@ -307,7 +307,7 @@ fun RecurringEditorScreen(recurringId: Long, onDone: () -> Unit) {
             )
             Button(
                 onClick = {
-                    scope.launch {
+                    scope.launch(Dispatchers.Main.immediate) {
                         if (vm.save()) {
                             messenger.show(if (vm.isNew) "Recurring item added" else "Recurring item saved")
                             onDone()
@@ -337,7 +337,7 @@ fun RecurringEditorScreen(recurringId: Long, onDone: () -> Unit) {
             confirmButton = {
                 TextButton(onClick = {
                     confirmDelete = false
-                    scope.launch {
+                    scope.launch(Dispatchers.Main.immediate) {
                         vm.delete()
                         messenger.show("Recurring item deleted")
                         onDone()

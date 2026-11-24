@@ -49,6 +49,7 @@ import com.localbudget.ui.settings.SettingsScreen
 import com.localbudget.ui.stats.StatsScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 object Routes {
@@ -68,7 +69,7 @@ object Routes {
 /** Shows snackbars that survive navigating away from the screen that triggered them. */
 class Messenger(private val scope: CoroutineScope, val host: SnackbarHostState) {
     fun show(message: String, actionLabel: String? = null, onAction: (() -> Unit)? = null) {
-        scope.launch {
+        scope.launch(Dispatchers.Main.immediate) {
             host.currentSnackbarData?.dismiss()
             val result = host.showSnackbar(
                 message = message,

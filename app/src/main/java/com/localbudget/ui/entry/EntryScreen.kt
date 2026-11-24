@@ -202,14 +202,14 @@ fun EntryScreen(entryId: Long, initialType: EntryType, onDone: () -> Unit) {
     val save: () -> Unit = {
         if (!saving) {
             saving = true
-            scope.launch {
+            scope.launch(Dispatchers.Main.immediate) {
                 val saved = vm.save()
                 if (saved != null) {
                     val what = if (saved.type == EntryType.INCOME) "Income" else "Expense"
                     val amount = Money.format(saved.amount, currency)
                     if (form.isNew) {
                         messenger.show("$what of $amount added", "Undo") {
-                            container.scope.launch { container.repository.deleteEntry(saved.id) }
+                            container.scope.launch(Dispatchers.Main.immediate) { container.repository.deleteEntry(saved.id) }
                         }
                     } else {
                         messenger.show("$what updated")
@@ -234,7 +234,7 @@ fun EntryScreen(entryId: Long, initialType: EntryType, onDone: () -> Unit) {
                         IconButton(onClick = {
                             vm.delete { deleted ->
                                 messenger.show("Entry deleted", "Undo") {
-                                    container.scope.launch { container.repository.restoreEntry(deleted) }
+                                    container.scope.launch(Dispatchers.Main.immediate) { container.repository.restoreEntry(deleted) }
                                 }
                                 onDone()
                             }

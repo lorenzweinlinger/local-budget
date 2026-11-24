@@ -173,7 +173,7 @@ private fun CategoryDialog(initial: Category, currency: String, onDismiss: () ->
             },
             confirmButton = {
                 TextButton(onClick = {
-                    scope.launch {
+                    scope.launch(Dispatchers.Main.immediate) {
                         container.repository.deleteCategory(initial.id)
                         messenger.show("Category deleted")
                         onDismiss()
@@ -265,7 +265,7 @@ private fun CategoryDialog(initial: Category, currency: String, onDismiss: () ->
             TextButton(
                 enabled = name.isNotBlank(),
                 onClick = {
-                    scope.launch {
+                    scope.launch(Dispatchers.Main.immediate) {
                         container.repository.saveCategory(
                             initial.copy(
                                 name = name.trim(),
