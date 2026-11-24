@@ -25,10 +25,12 @@ A simple, private budget tracker for Android. Open the app, type an amount, pick
 
 ## Install
 
-Every push builds an APK with GitHub Actions:
-**Actions → Build APK → latest run → Artifacts → `local-budget-apk`**.
-Unzip it and open `local-budget.apk` on your phone (allow “install unknown apps” for your browser/file manager).
-Requires Android 8.0 or newer.
+**On your phone, open this link:**
+https://github.com/lorenzweinlinger/local-budget/releases/latest/download/local-budget.apk
+
+It always points to the newest build (every push is built by GitHub Actions and published under
+*Releases*). Open the downloaded file and allow “install unknown apps” for your browser when asked.
+Requires Android 8.0 or newer. (If the repository is private, you need to be logged in to GitHub in that browser.)
 
 > Updates install over the previous version and keep your data, because every build is signed with the
 > same key (`keystore/debug.keystore`, a throw-away key committed to the repo). If you want to sign with your

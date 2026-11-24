@@ -5,6 +5,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: write   # needed to publish the APK as a GitHub Release
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,6 +35,22 @@ jobs:
         with:
           name: local-budget-apk
           path: local-budget.apk
+
+      # Publish every successful push as a release, so the newest APK is always at
+      # https://github.com/<owner>/<repo>/releases/latest/download/local-budget.apk
+      # (easy to download straight from a phone).
+      - name: Publish release
+        if: github.event_name != 'pull_request'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Local Budget build ${{ github.run_number }}
+          target_commitish: ${{ github.sha }}
+          make_latest: true
+          body: |
+            Tap **local-budget.apk** below to download, then open it to install.
+            Built from `${{ github.ref_name }}` @ ${{ github.sha }}.
+          files: local-budget.apk
 
       - uses: actions/upload-artifact@v4
         if: failure()
